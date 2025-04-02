@@ -14,7 +14,7 @@ type TodoRepo interface {
     CreateTodo(todo *model.Todo) error
     GetAllTodos() ([]model.Todo, error)
     UpdateTodo(todo *model.Todo) error
-    DeleteTodo(id uint) error
+    DeleteTodo(id int) error
 }
 
 var repo TodoRepo
