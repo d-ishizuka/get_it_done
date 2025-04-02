@@ -7,7 +7,6 @@ import (
 
     "github.com/gorilla/mux"
     "github.com/d-ishizuka/get_it_done/internal/model"
-    "github.com/d-ishizuka/get_it_done/internal/repository"
 )
 
 type TodoRepo interface {
