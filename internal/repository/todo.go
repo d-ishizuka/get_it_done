@@ -2,7 +2,7 @@ package repository
 
 import (
     "github.com/jinzhu/gorm"
-    "todo-api/internal/model"
+    "github.com/d-ishizuka/get_it_done/internal/model"
 )
 
 type TodoRepository struct {
