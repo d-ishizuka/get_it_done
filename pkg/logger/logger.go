@@ -2,33 +2,47 @@ package logger
 
 import (
 	"os"
+	"time"
 
 	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 )
 
-type Logger struct {
-	zerolog.Logger
+var log zerolog.Logger
+
+func init() {
+	output := zerolog.ConsoleWriter{Out: os.Stdout, TimeFormat: time.RFC3339}
+	log = zerolog.New(output).With().Timestamp().Caller().Logger()
+
+	// ログレベル設定
+	zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	if os.Getenv("DEBUG") == "true" {
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	}
 }
 
-func NewLogger() *Logger {
-	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
-	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
-	return &Logger{log.Logger}
+// GetLogger returns the configured logger
+func GetLogger() *zerolog.Logger {
+	return &log
 }
 
-func (l *Logger) Info(msg string) {
-	l.Logger.Info().Msg(msg)
+// Info logs an info message
+func Info(msg string, fields ...map[string]interface{}) {
+	event := log.Info()
+	if len(fields) > 0 {
+		for k, v := range fields[0] {
+			event = event.Interface(k, v)
+		}
+	}
+	event.Msg(msg)
 }
 
-func (l *Logger) Error(msg string) {
-	l.Logger.Error().Msg(msg)
-}
-
-func (l *Logger) Warn(msg string) {
-	l.Logger.Warn().Msg(msg)
-}
-
-func (l *Logger) Debug(msg string) {
-	l.Logger.Debug().Msg(msg)
+// Error logs an error message
+func Error(err error, msg string, fields ...map[string]interface{}) {
+		event := log.Error().Err(err)
+		if len(fields) > 0 {
+			for k, v := range fields[0] {
+				event = event.Interface(k, v)
+			}
+		}
+		event.Msg(msg)
 }
