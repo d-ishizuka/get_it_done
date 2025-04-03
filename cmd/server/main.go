@@ -30,10 +30,10 @@ func main() {
     r := mux.NewRouter()
 
     // API routes
-    r.HandleFunc("/todos", handler.CreateTodo).Methods("POST")
-    r.HandleFunc("/todos", handler.GetTodos).Methods("GET")
-    r.HandleFunc("/todos/{id}", handler.UpdateTodo).Methods("PUT")
-    r.HandleFunc("/todos/{id}", handler.CreateTodo).Methods("DELETE")
+    r.HandleFunc("/api/v1/todos", handler.CreateTodo).Methods("POST")
+    r.HandleFunc("/api/v1/todos", handler.GetTodos).Methods("GET")
+    r.HandleFunc("/api/v1/todos/{id}", handler.UpdateTodo).Methods("PUT")
+    r.HandleFunc("/api/v1/todos/{id}", handler.CreateTodo).Methods("DELETE")
 
     // Start the server
     log.Println("Starting server on :8080")
